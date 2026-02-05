@@ -1,7 +1,10 @@
 FROM node:8
 
+# Use archive.debian.org and ignore stretch-updates
 RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
     sed -i '/security.debian.org/d' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/ s/^/#/' /etc/apt/sources.list && \
+    export APT_ALLOW_RELEASEINFO_CHANGE=yes && \
     apt-get update && \
     apt-get install -y createrepo dpkg-dev apt-utils gnupg2 gzip && \
     rm -rf /var/lib/apt/lists/*
